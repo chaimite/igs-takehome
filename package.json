@@ -2,7 +2,9 @@
   "name": "@igs-takehome/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "nx serve shell --open --devRemotes='towersVisualization' --watch"
+  },
   "private": true,
   "devDependencies": {
     "@angular-devkit/build-angular": "~19.2.0",
