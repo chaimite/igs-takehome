@@ -1,0 +1,24 @@
+<div class="slot">
+    <h3>Slot {{ slot?.number }}</h3>
+  
+    @if (slot?.growthTray) {
+      <div>
+        <h4>Growth Tray: {{ slot?.growthTray?.identifier }}</h4>
+  
+        @if (slot?.growthTray?.growthJob) {
+          <div>
+            <p>Growth Job: {{ slot?.growthTray?.growthJob?.name }}</p>
+            <progress
+              [value]="slot?.growthTray?.growthJob?.progressPercentage"
+              [max]="slot?.growthTray?.growthJob?.maxPercentage || 100"
+            ></progress>
+            <p>{{ slot?.growthTray?.growthJob?.progressPercentage }}%</p>
+          </div>
+        } @else {
+          <p>No growth job assigned to this growth tray.</p>
+        }
+      </div>
+    } @else {
+      <p>No growth tray assigned to this slot.</p>
+    }
+  </div>

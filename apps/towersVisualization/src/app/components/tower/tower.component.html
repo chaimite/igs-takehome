@@ -1,2 +1,41 @@
-<p>tower works!</p>
-{{ towers$ | async  }}
+<ng-template #loadingTemplate>
+    <div class="loading-message">
+      <p>Loading data, please wait...</p>
+    </div>
+  </ng-template>
+  
+  @if (loading$ | async) {
+  <div>
+    <ng-container *ngTemplateOutlet="loadingTemplate"></ng-container>
+  </div>
+  } @else { @if (error$ | async) {
+  <div>
+    <div class="error-message">
+      <p>There was an error while trying to get data from the towers.</p>
+    </div>
+    <button (click)="retryFetchTowers()">Retry</button>
+  </div>
+  } @else { @if (towers$ | async; as towers) {
+  <div>
+    <label for="towerSelect">Select Tower:</label>
+    <select
+      id="towerSelect"
+      [ngModel]="(selectedTower$ | async)?.number"
+      (ngModelChange)="onSelectTower($event)"
+    >
+      @for (tower of towers; track tower.number) {
+      <option [value]="tower.number">Tower {{ tower.number }}</option>
+      }
+    </select>
+  </div>
+  }
+  <hr />
+  @if (selectedTower$ | async; as tower) {
+  <div>
+    <h2>Tower {{ tower.number }}</h2>
+    @for (slot of tower.slots; track slot.number) {
+    <app-slot [slot]="slot"></app-slot>
+    }
+  </div>
+  } } }
+  
