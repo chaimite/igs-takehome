@@ -3,7 +3,10 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "nx serve shell --open --devRemotes='towersVisualization' --watch"
+    "dev": "nx serve shell --open --devRemotes='towersVisualization' --watch",
+    "test:all": "nx test shell && nx test towersVisualization",
+    "test:all:watch": "nx test shell && nx test towersVisualization --watch",
+    "test:towersVisualization:watch": "npx jest apps/towersVisualization --watch"
   },
   "private": true,
   "devDependencies": {
