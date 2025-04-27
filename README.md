@@ -41,6 +41,12 @@ app is at http://localhost:4201/
 
 Use node v20.11.1 
 
+Install nx globally
+run
+ ```bash
+npm install -g nx
+```
+
 cd to /igs-takehome
 
 run
