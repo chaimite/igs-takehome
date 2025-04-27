@@ -19,11 +19,11 @@ RUN npx nx build towersVisualization --configuration=production
 # Stage 2: Serve the towersVisualization app
 FROM nginx:alpine AS runner
 
-# Copy the built app to Nginx
+# Copy the built towersVisualization app to Nginx
 COPY --from=builder /app/dist/apps/towersVisualization /usr/share/nginx/html
 
 # Expose the port
-EXPOSE 80
+EXPOSE 4201
 
 # Start Nginx
 CMD ["nginx", "-g", "daemon off;"]

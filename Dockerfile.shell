@@ -19,7 +19,7 @@ RUN npx nx build shell --configuration=production
 # Stage 2: Serve the shell app
 FROM nginx:alpine AS runner
 
-# Copy the built app to Nginx
+# Copy the built shell app to Nginx
 COPY --from=builder /app/dist/apps/shell /usr/share/nginx/html
 
 # Expose the port

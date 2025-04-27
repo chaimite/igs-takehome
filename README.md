@@ -1,7 +1,12 @@
 # TowersVisualization
 
- The mfe approach is not working as I can't share the store between the mfe and shell app. The shell has an error 
- ![alt text](image.png) 
+ The shell is not working as I can't share the store between the mfe and shell app. The shell has an error
+ ![alt text](image.png)
+
+ The containerized version of the shell does not work.
+
+ The containerized version of the app works.
+
 
 ## Assumptions
 
@@ -11,37 +16,28 @@ I am assuming that if a growth tray does not have a growth job there was none fo
 
 I also added a retry button in case there is an error such as service unavailable and the user wants to retry fetching data.
 
-## Running the app
+## Running the app with docker
 
-To run the app open a terminal in the ```igs/igs-takehome```
+Requires to have docker installed and open
 
-- Run the host:
-In the terminal build the image with 
-```bash
-docker build -t shell-app -f Dockerfile.shell .
+In the command line
+
+run
+ ```bash
+docker-compose build
+```
+and then
+
+run
+ ```bash
+docker-compose up
 ```
 
-Run the app with
-```bash
-docker run -p 8080:80 shell-app
-```
-Then go to: http://localhost:8081/
+host app is at http://localhost:8080/
+app is at http://localhost:4201/
 
 
-- Run the micro frontend: 
-In the terminal build the image with 
-```bash
-docker build -t towers-visualization-app -f Dockerfile.towersVisualization .
-```
-
-Run the app with
-```bash
-docker run -p 8081:80 towers-visualization-app
-```
-
-Then go to: http://localhost:8081/
-
-- To run the application locally:
+## Running the application locally:
 
 Use node v20.11.1 
 

@@ -14,7 +14,10 @@ const config: ModuleFederationConfig = {
    * declare module 'my-external-remote';
    *
    */
-  remotes: ['towersVisualization'],
+  remotes: [
+    ['towersVisualization', 'http://localhost:4201/remoteEntry.mjs'],
+  ],
+
 };
 
 /**

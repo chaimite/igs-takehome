@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  shell:
+    build:
+      context: .
+      dockerfile: Dockerfile.shell
+    ports:
+      - "8080:80"
+
+  towersvisualization:
+    build:
+      context: .
+      dockerfile: Dockerfile.towersVisualization
+    ports:
+      - "4201:80"
