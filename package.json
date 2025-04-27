@@ -6,7 +6,8 @@
     "dev": "nx serve shell --open --devRemotes='towersVisualization' --watch",
     "test:all": "nx test shell && nx test towersVisualization",
     "test:all:watch": "nx test shell && nx test towersVisualization --watch",
-    "test:towersVisualization:watch": "npx jest apps/towersVisualization --watch"
+    "test:towersVisualization:watch": "npx jest apps/towersVisualization --watch",
+    "lint": "npx nx lint shell && npx nx lint towersVisualization"
   },
   "private": true,
   "devDependencies": {
