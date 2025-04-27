@@ -1,27 +1,32 @@
-import { Injectable, inject } from '@angular/core';
-import { select, Store, Action } from '@ngrx/store';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { selectAllTowers, selectCurrentTower, selectError, selectLoading } from './towers.selectors';
+import { fetchTowers, fetchTowersFailure, fetchTowersSuccess, selectTower } from './towers.actions';
+import { Tower } from '../simulation/tower';
 
-import * as TowersActions from './towers.actions';
-import * as TowersFeature from './towers.reducer';
-import * as TowersSelectors from './towers.selectors';
-
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class TowersFacade {
-  private readonly store = inject(Store);
+    towers$ = this.store.select(selectAllTowers);
+    selectedTower$ = this.store.select(selectCurrentTower);
+    error$ = this.store.select(selectError);
+    loading$ = this.store.select(selectLoading);
+    
+    constructor(private store: Store) {}
+    fetchTowers(): void {
+        this.store.dispatch(fetchTowers());
+      }
+    
+    fetchTowersSuccess(towers: Tower[]): void {
+        this.store.dispatch(fetchTowersSuccess({ towers }));
+    }
+    
+    selectTower(towerNumber: number): void {
+        this.store.dispatch(selectTower({ towerNumber }));
+    }
 
-  /**
-   * Combine pieces of state using createSelector,
-   * and expose them as observables through the facade.
-   */
-  loaded$ = this.store.pipe(select(TowersSelectors.selectTowersLoaded));
-  allTowers$ = this.store.pipe(select(TowersSelectors.selectAllTowers));
-  selectedTowers$ = this.store.pipe(select(TowersSelectors.selectEntity));
-
-  /**
-   * Use the initialization action to perform one
-   * or more tasks in your Effects.
-   */
-  init() {
-    this.store.dispatch(TowersActions.initTowers());
-  }
+    fetchTowersFailure(error: string): void {
+        this.store.dispatch(fetchTowersFailure({ error }));
+      }
 }

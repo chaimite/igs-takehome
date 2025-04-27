@@ -1,43 +1,24 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import {
-  TOWERS_FEATURE_KEY,
-  TowersState,
-  towersAdapter,
-} from './towers.reducer';
+import { TowerState } from './towers.models';
 
-// Lookup the 'Towers' feature state managed by NgRx
-export const selectTowersState =
-  createFeatureSelector<TowersState>(TOWERS_FEATURE_KEY);
-
-const { selectAll, selectEntities } = towersAdapter.getSelectors();
-
-export const selectTowersLoaded = createSelector(
-  selectTowersState,
-  (state: TowersState) => state.loaded
-);
-
-export const selectTowersError = createSelector(
-  selectTowersState,
-  (state: TowersState) => state.error
-);
+export const selectTowerState = createFeatureSelector<TowerState>('towers');
 
 export const selectAllTowers = createSelector(
-  selectTowersState,
-  (state: TowersState) => selectAll(state)
+  selectTowerState,
+  (state) => state.towers
 );
 
-export const selectTowersEntities = createSelector(
-  selectTowersState,
-  (state: TowersState) => selectEntities(state)
+export const selectCurrentTower = createSelector(
+  selectTowerState,
+  (state) => state.towers[state.selectedTowerIndex]
 );
 
-export const selectSelectedId = createSelector(
-  selectTowersState,
-  (state: TowersState) => state.selectedId
+export const selectLoading = createSelector(
+  selectTowerState,
+  (state) => state.loading
 );
 
-export const selectEntity = createSelector(
-  selectTowersEntities,
-  selectSelectedId,
-  (entities, selectedId) => (selectedId ? entities[selectedId] : undefined)
+export const selectError = createSelector(
+  selectTowerState,
+  (state) => state.error
 );

@@ -48,7 +48,7 @@ describe('TowerComponent', () => {
   });
 
   it('should call fetchTowers on initialization', () => {
-    const fetchTowersSpy = spyOn(component, 'fetchTowers').and.callThrough();
+    const fetchTowersSpy = jest.spyOn(component, 'fetchTowers');
 
     component.ngOnInit();
 

@@ -1,21 +1,28 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { createEffect, Actions, ofType } from '@ngrx/effects';
-import { switchMap, catchError, of } from 'rxjs';
+import { switchMap, catchError, of, map } from 'rxjs';
 import * as TowersActions from './towers.actions';
-import * as TowersFeature from './towers.reducer';
+import { TowerService } from '../simulation/tower.service';
+import { Tower } from '../simulation/tower';
 
 @Injectable()
 export class TowersEffects {
-  private actions$ = inject(Actions);
+  constructor(private towerService: TowerService,  private actions$: Actions,) {}
 
   init$ = createEffect(() =>
+    
     this.actions$.pipe(
-      ofType(TowersActions.initTowers),
-      switchMap(() => of(TowersActions.loadTowersSuccess({ towers: [] }))),
-      catchError((error) => {
-        console.error('Error', error);
-        return of(TowersActions.loadTowersFailure({ error }));
-      })
+      ofType(TowersActions.fetchTowers),
+      switchMap(() =>
+        this.towerService.towerData$.pipe(
+          map((towers: Tower[]) => {
+            return TowersActions.fetchTowersSuccess({ towers });
+          }),
+          catchError((error) => {
+            return of(TowersActions.fetchTowersFailure({ error: error.message }));
+          })
+        )
+      )
     )
   );
 }

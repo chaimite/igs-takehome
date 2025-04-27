@@ -1,45 +1,44 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
-import { createReducer, on, Action } from '@ngrx/store';
-
-import * as TowersActions from './towers.actions';
-import { TowersEntity } from './towers.models';
+import { createReducer, on } from '@ngrx/store';
+import { fetchTowers, fetchTowersSuccess, fetchTowersFailure, selectTower } from './towers.actions';
+import { TowerState } from './towers.models';
 
 export const TOWERS_FEATURE_KEY = 'towers';
-
-export interface TowersState extends EntityState<TowersEntity> {
-  selectedId?: string | number; // which Towers record has been selected
-  loaded: boolean; // has the Towers list been loaded
-  error?: string | null; // last known error (if any)
-}
-
 export interface TowersPartialState {
-  readonly [TOWERS_FEATURE_KEY]: TowersState;
+    readonly [TOWERS_FEATURE_KEY]: TowerState;
 }
 
-export const towersAdapter: EntityAdapter<TowersEntity> =
-  createEntityAdapter<TowersEntity>();
+export const initialState: TowerState = {
+  towers: [],
+  selectedTowerIndex: 0,
+  loading: false,
+  error: null,
+};
 
-export const initialTowersState: TowersState = towersAdapter.getInitialState({
-  // set initial required properties
-  loaded: false,
-});
-
-const reducer = createReducer(
-  initialTowersState,
-  on(TowersActions.initTowers, (state) => ({
+export const towersReducer = createReducer(
+  initialState,
+  on(fetchTowers, (state: TowerState): TowerState => ({
     ...state,
-    loaded: false,
-    error: null,
+    loading: true,
   })),
-  on(TowersActions.loadTowersSuccess, (state, { towers }) =>
-    towersAdapter.setAll(towers, { ...state, loaded: true })
-  ),
-  on(TowersActions.loadTowersFailure, (state, { error }) => ({
-    ...state,
-    error,
-  }))
-);
 
-export function towersReducer(state: TowersState | undefined, action: Action) {
-  return reducer(state, action);
-}
+  on(fetchTowersSuccess, (state: TowerState, { towers }): TowerState => ({
+      ...state,
+      towers,
+      loading: false,
+      error: null,
+  })),
+
+  on(fetchTowersFailure, (state, { error }) => ({
+    ...state,
+    loading: false,
+    error,
+  })),
+  
+  on(selectTower, (state, { towerNumber }) => {
+    const index = towerNumber - 1;
+    return {
+      ...state,
+      selectedTowerIndex: index >= 0 && index < state.towers.length ? index : state.selectedTowerIndex,
+    };
+  })
+);
