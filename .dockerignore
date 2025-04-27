@@ -1,0 +1,23 @@
+# Ignore node_modules
+node_modules
+
+# Ignore build artifacts
+dist
+
+# Ignore local environment files
+.env
+*.log
+
+# Ignore IDE/editor files
+.vscode
+.idea
+
+# Ignore Docker-related files
+Dockerfile
+docker-compose.yml
+
+# Ignore other unnecessary files
+.git
+.gitignore
+nx-cache
+.angular
