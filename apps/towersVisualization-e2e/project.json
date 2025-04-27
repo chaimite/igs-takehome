@@ -1,0 +1,9 @@
+{
+  "name": "towersVisualization-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/towersVisualization-e2e/src",
+  "implicitDependencies": ["towersVisualization"],
+  "// targets": "to see all targets run: nx show project towersVisualization-e2e --web",
+  "targets": {}
+}
